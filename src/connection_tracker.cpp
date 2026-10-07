@@ -217,55 +217,61 @@ GlobalConnectionTable::GlobalStats GlobalConnectionTable::getGlobalStats() const
 
 std::string GlobalConnectionTable::generateReport() const {
     auto stats = getGlobalStats();
-    
+
+    constexpr int content_width = 60;
+    const std::string border = "+------------------------------------------------------------+\n";
     std::ostringstream ss;
-    ss << "\n╔══════════════════════════════════════════════════════════════╗\n";
-    ss << "║               CONNECTION STATISTICS REPORT                    ║\n";
-    ss << "╠══════════════════════════════════════════════════════════════╣\n";
-    
-    ss << "║ Active Connections:     " << std::setw(10) << stats.total_active_connections << "                          ║\n";
-    ss << "║ Total Connections Seen: " << std::setw(10) << stats.total_connections_seen << "                          ║\n";
-    
-    ss << "╠══════════════════════════════════════════════════════════════╣\n";
-    ss << "║                    APPLICATION BREAKDOWN                      ║\n";
-    ss << "╠══════════════════════════════════════════════════════════════╣\n";
-    
-    // Calculate total for percentages
+    auto heading = [&ss](const std::string& text) {
+        const size_t left_padding = (content_width - text.size()) / 2;
+        ss << '|' << std::string(left_padding, ' ') << text
+           << std::string(content_width - left_padding - text.size(), ' ') << "|\n";
+    };
+    auto row = [&ss](const std::string& label, const std::string& value) {
+        ss << "| " << std::left << std::setw(25) << label
+           << std::right << std::setw(33) << value << " |\n";
+    };
+
+    ss << "\n" << border;
+    heading("CONNECTION STATISTICS REPORT");
+    ss << border;
+    row("Active Connections:", std::to_string(stats.total_active_connections));
+    row("Total Connections Seen:", std::to_string(stats.total_connections_seen));
+    ss << border;
+    heading("APPLICATION BREAKDOWN");
+    ss << border;
+
     size_t total = 0;
     for (const auto& pair : stats.app_distribution) {
         total += pair.second;
     }
-    
-    // Sort by count
+
     std::vector<std::pair<AppType, size_t>> sorted_apps(
         stats.app_distribution.begin(), stats.app_distribution.end());
     std::sort(sorted_apps.begin(), sorted_apps.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
-    
+
     for (const auto& pair : sorted_apps) {
         double pct = total > 0 ? (100.0 * pair.second / total) : 0;
-        ss << "║ " << std::setw(20) << std::left << appTypeToString(pair.first)
-           << std::setw(10) << std::right << pair.second
-           << " (" << std::fixed << std::setprecision(1) << std::setw(5) << pct << "%)           ║\n";
+        std::ostringstream value;
+        value << pair.second << " (" << std::fixed << std::setprecision(1) << pct << "%)";
+        row(appTypeToString(pair.first), value.str());
     }
-    
+
     if (!stats.top_domains.empty()) {
-        ss << "╠══════════════════════════════════════════════════════════════╣\n";
-        ss << "║                      TOP DOMAINS                             ║\n";
-        ss << "╠══════════════════════════════════════════════════════════════╣\n";
-        
+        ss << border;
+        heading("TOP DOMAINS");
+        ss << border;
         for (const auto& pair : stats.top_domains) {
             std::string domain = pair.first;
             if (domain.length() > 35) {
                 domain = domain.substr(0, 32) + "...";
             }
-            ss << "║ " << std::setw(40) << std::left << domain
-               << std::setw(10) << std::right << pair.second << "           ║\n";
+            ss << "| " << std::left << std::setw(45) << domain
+               << std::right << std::setw(13) << pair.second << " |\n";
         }
     }
-    
-    ss << "╚══════════════════════════════════════════════════════════════╝\n";
-    
+
+    ss << border;
     return ss.str();
 }
 

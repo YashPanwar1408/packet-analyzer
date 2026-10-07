@@ -8,10 +8,10 @@ using namespace DPI;
 
 void printUsage(const char* program) {
     std::cout << R"(
-╔══════════════════════════════════════════════════════════════╗
-║                    DPI ENGINE v1.0                            ║
-║               Deep Packet Inspection System                   ║
-╚══════════════════════════════════════════════════════════════╝
++------------------------------------------------------------+
+|                     DPI ENGINE v1.0                        |
+|               Deep Packet Inspection System                |
++------------------------------------------------------------+
 
 Usage: )" << program << R"( <input.pcap> <output.pcap> [options]
 
@@ -39,25 +39,29 @@ Supported Apps for Blocking:
   Microsoft, Apple, WhatsApp, Telegram, TikTok, Spotify, Zoom, Discord, GitHub
 
 Architecture:
-  ┌─────────────┐
-  │ PCAP Reader │  Reads packets from input file
-  └──────┬──────┘
-         │ hash(5-tuple) % num_lbs
-         ▼
-  ┌──────┴──────┐
-  │ Load Balancer │  2 LB threads distribute to FPs
-  │   LB0 │ LB1   │
-  └──┬────┴────┬──┘
-     │         │  hash(5-tuple) % fps_per_lb
-     ▼         ▼
-  ┌──┴──┐   ┌──┴──┐
-  │FP0-1│   │FP2-3│  4 FP threads: DPI, classification, blocking
-  └──┬──┘   └──┬──┘
-     │         │
-     ▼         ▼
-  ┌──┴─────────┴──┐
-  │ Output Writer │  Writes forwarded packets to output
-  └───────────────┘
+  +-------------+
+  | PCAP Reader |  Reads packets from input file
+  +------+------+ 
+         |
+         | hash(5-tuple) % num_lbs
+         v
+  +------+--------+
+  | Load Balancer |  2 LB threads distribute to FPs
+  |   LB0 | LB1  |
+  +---+-------+---+
+      |       |
+      |       | hash(5-tuple) % fps_per_lb
+      v       v
+   +--+--+ +--+--+
+   |FP0-1| |FP2-3|  4 FP threads: DPI, classification, blocking
+   +--+--+ +--+--+
+      |       |
+      +---+---+
+          |
+          v
+  +---------------+
+  | Output Writer |  Writes forwarded packets to output
+  +---------------+
 
 )";
 }

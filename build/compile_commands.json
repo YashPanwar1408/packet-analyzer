@@ -1,0 +1,62 @@
+[
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\main_dpi.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\main_dpi.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/main_dpi.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/main_dpi.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\dpi_engine.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\dpi_engine.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/dpi_engine.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/dpi_engine.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\pcap_reader.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\pcap_reader.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/pcap_reader.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/pcap_reader.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\packet_parser.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\packet_parser.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/packet_parser.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/packet_parser.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\rule_manager.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\rule_manager.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/rule_manager.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/rule_manager.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\connection_tracker.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\connection_tracker.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/connection_tracker.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/connection_tracker.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\fast_path.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\fast_path.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/fast_path.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/fast_path.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\load_balancer.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\load_balancer.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/load_balancer.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/load_balancer.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\sni_extractor.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\sni_extractor.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/sni_extractor.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/sni_extractor.cpp.obj"
+},
+{
+  "directory": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build",
+  "command": "D:\\msys64\\ucrt64\\bin\\c++.exe -I\"D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/include\" -g -std=gnu++17 -o CMakeFiles\\dpi_engine.dir\\src\\types.cpp.obj -c \"D:\\Desktop\\Projects\\Full Stack Projects\\packet_analyzerr\\src\\types.cpp\"",
+  "file": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/src/types.cpp",
+  "output": "D:/Desktop/Projects/Full Stack Projects/packet_analyzerr/build/CMakeFiles/dpi_engine.dir/src/types.cpp.obj"
+}
+]

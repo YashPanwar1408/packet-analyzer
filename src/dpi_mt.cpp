@@ -361,14 +361,23 @@ public:
     DPIEngine(const Config& cfg) : config_(cfg) {
         int total_fps = cfg.num_lbs * cfg.fps_per_lb;
         
-        std::cout << "\n";
-        std::cout << "╔══════════════════════════════════════════════════════════════╗\n";
-        std::cout << "║              DPI ENGINE v2.0 (Multi-threaded)                 ║\n";
-        std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-        std::cout << "║ Load Balancers: " << std::setw(2) << cfg.num_lbs 
-                  << "    FPs per LB: " << std::setw(2) << cfg.fps_per_lb
-                  << "    Total FPs: " << std::setw(2) << total_fps << "     ║\n";
-        std::cout << "╚══════════════════════════════════════════════════════════════╝\n\n";
+        const std::string border = "+------------------------------------------------------------+\n";
+        auto heading = [](const std::string& text) {
+            const size_t left = (60 - text.size()) / 2;
+            std::cout << '|' << std::string(left, ' ') << text
+                      << std::string(60 - left - text.size(), ' ') << "|\n";
+        };
+        auto row = [](const std::string& label, int value) {
+            std::cout << "| " << std::left << std::setw(24) << label
+                      << std::right << std::setw(34) << value << " |\n";
+        };
+        std::cout << "\n" << border;
+        heading("DPI ENGINE v2.0 (Multi-threaded)");
+        std::cout << border;
+        row("Load Balancers:", cfg.num_lbs);
+        row("FPs per LB:", cfg.fps_per_lb);
+        row("Total FPs:", total_fps);
+        std::cout << border << "\n";
         
         // Create FP threads
         for (int i = 0; i < total_fps; i++) {
@@ -526,55 +535,59 @@ private:
     std::vector<std::unique_ptr<LoadBalancer>> lbs_;
     
     void printReport() {
-        std::cout << "\n";
-        std::cout << "╔══════════════════════════════════════════════════════════════╗\n";
-        std::cout << "║                      PROCESSING REPORT                        ║\n";
-        std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-        std::cout << "║ Total Packets:      " << std::setw(12) << stats_.total_packets.load() << "                           ║\n";
-        std::cout << "║ Total Bytes:        " << std::setw(12) << stats_.total_bytes.load() << "                           ║\n";
-        std::cout << "║ TCP Packets:        " << std::setw(12) << stats_.tcp_packets.load() << "                           ║\n";
-        std::cout << "║ UDP Packets:        " << std::setw(12) << stats_.udp_packets.load() << "                           ║\n";
-        std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-        std::cout << "║ Forwarded:          " << std::setw(12) << stats_.forwarded.load() << "                           ║\n";
-        std::cout << "║ Dropped:            " << std::setw(12) << stats_.dropped.load() << "                           ║\n";
-        
-        // Thread stats
-        std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-        std::cout << "║ THREAD STATISTICS                                             ║\n";
+        const std::string border = "+------------------------------------------------------------+\n";
+        auto heading = [](const std::string& text) {
+            const size_t left = (60 - text.size()) / 2;
+            std::cout << '|' << std::string(left, ' ') << text
+                      << std::string(60 - left - text.size(), ' ') << "|\n";
+        };
+        auto row = [](const std::string& label, const std::string& value) {
+            std::cout << "| " << std::left << std::setw(24) << label
+                      << std::right << std::setw(34) << value << " |\n";
+        };
+
+        std::cout << "\n" << border;
+        heading("PROCESSING REPORT");
+        std::cout << border;
+        row("Total Packets:", std::to_string(stats_.total_packets.load()));
+        row("Total Bytes:", std::to_string(stats_.total_bytes.load()));
+        row("TCP Packets:", std::to_string(stats_.tcp_packets.load()));
+        row("UDP Packets:", std::to_string(stats_.udp_packets.load()));
+        std::cout << border;
+        row("Forwarded:", std::to_string(stats_.forwarded.load()));
+        row("Dropped:", std::to_string(stats_.dropped.load()));
+        std::cout << border;
+        heading("THREAD STATISTICS");
+
         for (size_t i = 0; i < lbs_.size(); i++) {
-            std::cout << "║   LB" << i << " dispatched:   " << std::setw(12) << lbs_[i]->dispatched() << "                           ║\n";
+            row("LB" + std::to_string(i) + " dispatched:", std::to_string(lbs_[i]->dispatched()));
         }
         for (size_t i = 0; i < fps_.size(); i++) {
-            std::cout << "║   FP" << i << " processed:    " << std::setw(12) << fps_[i]->processed() << "                           ║\n";
+            row("FP" + std::to_string(i) + " processed:", std::to_string(fps_[i]->processed()));
         }
-        
-        // App distribution
-        std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-        std::cout << "║                   APPLICATION BREAKDOWN                       ║\n";
-        std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-        
+
+        std::cout << border;
+        heading("APPLICATION BREAKDOWN");
+        std::cout << border;
+
         std::lock_guard<std::mutex> lock(stats_.app_mutex);
-        
         std::vector<std::pair<AppType, uint64_t>> sorted_apps(
             stats_.app_counts.begin(), stats_.app_counts.end());
         std::sort(sorted_apps.begin(), sorted_apps.end(),
                   [](const auto& a, const auto& b) { return a.second > b.second; });
-        
+
         uint64_t total = stats_.total_packets.load();
         for (const auto& [app, count] : sorted_apps) {
             double pct = total > 0 ? (100.0 * count / total) : 0;
             int bar = static_cast<int>(pct / 5);
             std::string bar_str(bar, '#');
-            
-            std::cout << "║ " << std::setw(15) << std::left << appTypeToString(app)
-                      << std::setw(8) << std::right << count
-                      << " " << std::setw(5) << std::fixed << std::setprecision(1) << pct << "% "
-                      << std::setw(20) << std::left << bar_str << "  ║\n";
+            std::cout << "| " << std::setw(17) << std::left << appTypeToString(app)
+                      << ' ' << std::setw(10) << std::right << count
+                      << ' ' << std::setw(6) << std::fixed << std::setprecision(1) << pct << "% "
+                      << std::setw(20) << std::left << bar_str << "  |\n";
         }
-        
-        std::cout << "╚══════════════════════════════════════════════════════════════╝\n";
-        
-        // Detected SNIs
+
+        std::cout << border;
         if (!stats_.detected_snis.empty()) {
             std::cout << "\n[Detected Domains/SNIs]\n";
             for (const auto& [sni, app] : stats_.detected_snis) {
